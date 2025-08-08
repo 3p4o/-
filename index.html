@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Page</title>
+    <title>cjbj</title>
     <style>
         * {
             margin: 0;
@@ -14,6 +14,39 @@
         html, body {
             height: 100%;
             overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        #enterScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+
+        #enterScreen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #enterText {
+            color: white;
+            font-size: 2rem;
+            text-align: center;
+            user-select: none;
+            transition: transform 0.2s ease;
+        }
+
+        #enterText:hover {
+            transform: scale(1.05);
         }
 
         video {
@@ -25,39 +58,57 @@
             object-fit: cover;
             z-index: -1;
         }
+
+        @media (max-width: 768px) {
+            #enterText {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <video autoplay muted loop playsinline>
+    <div id="enterScreen">
+        <div id="enterText">Click to Enter</div>
+    </div>
+
+    <video loop playsinline>
         <source src="vid.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
     <script>
-        // Attempt to play with sound after user interaction
+        const enterScreen = document.getElementById('enterScreen');
         const video = document.querySelector('video');
-        
-        // Function to enable sound
-        function enableSound() {
+
+        function startExperience() {
+            // Hide the enter screen
+            enterScreen.classList.add('hidden');
+            
+            // Start the video with sound
             video.muted = false;
-            video.play().catch(e => console.log('Autoplay failed:', e));
+            video.play().catch(e => {
+                console.log('Video play failed:', e);
+                // Fallback: try muted if unmuted fails
+                video.muted = true;
+                video.play();
+            });
+
+            // Remove the enter screen completely after transition
+            setTimeout(() => {
+                enterScreen.style.display = 'none';
+            }, 500);
         }
 
-        // Try to enable sound on first user interaction
-        document.addEventListener('click', enableSound, { once: true });
-        document.addEventListener('touchstart', enableSound, { once: true });
-        document.addEventListener('keydown', enableSound, { once: true });
-
-        // Fallback: try to play with sound after a short delay
-        setTimeout(() => {
-            if (video.muted) {
-                video.muted = false;
-                video.play().catch(e => {
-                    console.log('Autoplay with sound failed, keeping muted');
-                    video.muted = true;
-                });
+        // Add click listener to enter screen
+        enterScreen.addEventListener('click', startExperience);
+        
+        // Also support touch and keyboard
+        enterScreen.addEventListener('touchstart', startExperience);
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space' || e.code === 'Enter') {
+                startExperience();
             }
-        }, 1000);
+        });
     </script>
 </body>
 </html>
