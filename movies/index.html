@@ -1,228 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>🎬 YACHTS MOVIES</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 <style>
-    body {
-        margin: 0;
-        font-family: 'Poppins', sans-serif;
-        background-color: #0a0014;
-        color: #fff;
-        display: flex;
-    }
-    /* Sidebar */
-    .sidebar {
-        width: 240px;
-        background: linear-gradient(180deg, #1a0033, #0a0014);
-        padding: 20px;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-        box-shadow: 2px 0 15px rgba(150,0,255,0.4);
-    }
-    .sidebar h2 {
-        font-family: 'Orbitron', sans-serif;
-        font-size: 1.8em;
-        margin-bottom: 20px;
-        text-shadow: 0 0 10px #a200ff;
-    }
-    .sidebar a {
-        display: block;
-        color: #ccc;
-        padding: 10px 0;
-        text-decoration: none;
-        transition: 0.2s;
-    }
-    .sidebar a:hover {
-        color: #fff;
-        text-shadow: 0 0 8px #b84dff;
-    }
-    /* Main Content */
-    .main {
-        margin-left: 260px;
-        padding: 20px;
-        flex: 1;
-    }
-    header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    header h1 {
-        font-family: 'Orbitron', sans-serif;
-        text-shadow: 0 0 10px #b84dff;
-    }
-    header input {
-        padding: 8px 12px;
-        border: none;
-        border-radius: 20px;
-        width: 220px;
-        outline: none;
-        background: #1a0033;
-        color: #fff;
-        box-shadow: 0 0 8px rgba(180,0,255,0.4);
-    }
-    .row {
-        margin-top: 30px;
-    }
-    .row h3 {
-        margin: 10px 0;
-        font-family: 'Orbitron', sans-serif;
-        color: #d7a3ff;
-        text-shadow: 0 0 5px #b84dff;
-    }
-    .movie-row {
-        display: flex;
-        overflow-x: auto;
-        gap: 15px;
-        padding-bottom: 10px;
-    }
-    .movie-card {
-        min-width: 180px;
-        background-color: #12001f;
-        border-radius: 10px;
-        overflow: hidden;
-        cursor: pointer;
-        transition: transform 0.3s, box-shadow 0.3s;
-        box-shadow: 0 0 8px rgba(150,0,255,0.2);
-        text-align: center;
-    }
-    .movie-card:hover {
-        transform: scale(1.07);
-        box-shadow: 0 0 20px rgba(180,0,255,0.8);
-    }
-    .movie-card img {
-        width: 100%;
-        height: 270px;
-        object-fit: cover;
-        display: block;
-        border-bottom: 2px solid #1a0033;
-    }
-    .movie-title {
-        font-size: 0.95em;
-        padding: 8px;
-        color: #fff;
-        font-weight: 600;
-    }
-    .rating {
-        font-size: 0.85em;
-        color: gold;
-        padding-bottom: 10px;
-    }
-    /* Modal */
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.9);
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-    .modal iframe {
-        width: 80%;
-        height: 60%;
-        border: none;
-        box-shadow: 0 0 20px rgba(150,0,255,0.6);
-    }
-    .close-btn {
-        position: absolute;
-        top: 20px;
-        right: 40px;
-        font-size: 2em;
-        cursor: pointer;
-        color: white;
-        text-shadow: 0 0 8px #a200ff;
-    }
+  body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background-color: #0a0014;
+    color: #fff;
+    display: flex;
+  }
+  /* Sidebar */
+  .sidebar {
+    width: 240px;
+    background: linear-gradient(180deg, #1a0033, #0a0014);
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 2px 0 15px rgba(150, 0, 255, 0.4);
+  }
+  .sidebar h2 {
+    font-family: "Orbitron", sans-serif;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #a200ff;
+  }
+  .sidebar a {
+    display: block;
+    color: #ccc;
+    padding: 10px 0;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  .sidebar a:hover {
+    color: #fff;
+    text-shadow: 0 0 8px #b84dff;
+  }
+  /* Main Content */
+  .main {
+    margin-left: 260px;
+    padding: 20px;
+    flex: 1;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header h1 {
+    font-family: "Orbitron", sans-serif;
+    text-shadow: 0 0 10px #b84dff;
+  }
+  header input {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 20px;
+    width: 220px;
+    outline: none;
+    background: #1a0033;
+    color: #fff;
+    box-shadow: 0 0 8px rgba(180, 0, 255, 0.4);
+  }
+  .row {
+    margin-top: 30px;
+  }
+  .row h3 {
+    margin: 10px 0;
+    font-family: "Orbitron", sans-serif;
+    color: #d7a3ff;
+    text-shadow: 0 0 5px #b84dff;
+  }
+  .movie-row {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding-bottom: 10px;
+  }
+  .movie-card {
+    min-width: 180px;
+    background-color: #12001f;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 0 8px rgba(150, 0, 255, 0.2);
+    text-align: center;
+  }
+  .movie-card:hover {
+    transform: scale(1.07);
+    box-shadow: 0 0 20px rgba(180, 0, 255, 0.8);
+  }
+  .movie-card img {
+    width: 100%;
+    height: 270px;
+    object-fit: cover;
+    display: block;
+    border-bottom: 2px solid #1a0033;
+  }
+  .movie-title {
+    font-size: 0.95em;
+    padding: 8px;
+    color: #fff;
+    font-weight: 600;
+  }
+  .rating {
+    font-size: 0.85em;
+    color: gold;
+    padding-bottom: 10px;
+  }
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  .modal iframe {
+    width: 80%;
+    height: 60%;
+    border: none;
+    box-shadow: 0 0 20px rgba(150, 0, 255, 0.6);
+  }
+  .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    font-size: 2em;
+    cursor: pointer;
+    color: white;
+    text-shadow: 0 0 8px #a200ff;
+  }
 </style>
 </head>
 <body>
-
-<!-- Sidebar -->
-<div class="sidebar">
+  <!-- Sidebar -->
+  <div class="sidebar">
     <h2>YACHTS MOVIES</h2>
     <a href="#">Home</a>
     <a href="#">Action</a>
     <a href="#">Adventure</a>
     <a href="#">Sci-Fi</a>
     <a href="#">Horror</a>
-</div>
+  </div>
 
-<!-- Main Content -->
-<div class="main">
+  <!-- Main Content -->
+  <div class="main">
     <header>
-        <h1>YACHTS MOVIES</h1>
-        <input type="text" id="search" placeholder="Search movies...">
+      <h1>YACHTS MOVIES</h1>
+      <input type="text" id="search" placeholder="Search movies..." />
     </header>
 
-    <!-- Row 1 -->
+    <!-- Row 1: Popular -->
     <div class="row">
-        <h3>Popular</h3>
-        <div class="movie-row">
-            <div class="movie-card" data-src="https://mega.nz/embed/TNUg1JxQ#MUoDG9AqW7AV-JoTDpqPwZDfKcvp-34xacTCyXKy2Z8">
-                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.impawards.com%2F2025%2Fposters%2Fjurassic_world_rebirth_ver6.jpg&f=1&nofb=1&ipt=72f2a3274d1d9183f2ef28d223ca09c6e2346dc7a26e2d1bbfd9aa2358d69e18" alt="Jurassic Park Rebirth">
-                <div class="movie-title">Jurassic Park Rebirth</div>
-                <div class="rating">⭐⭐⭐⭐☆</div>
-            </div>
-            <div class="movie-card" data-src="https://mega.nz/embed/HFslzYKB#ESA1jEoAV7uoSKri7KRPp62SCBAGkm-SIrAIkca4gnE">
-                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapercave.com%2Fwp%2Fwp14534908.jpg&f=1&nofb=1&ipt=3c0c8021f2a3be0ae2846999f9627161757f38d892c79bee50b51db42177a741" alt="Minecraft Movie">
-                <div class="movie-title">Minecraft Movie</div>
-                <div class="rating">⭐⭐⭐☆☆</div>
-            </div>
+      <h3>Popular</h3>
+      <div class="movie-row">
+        <div
+          class="movie-card"
+          data-src="https://mega.nz/embed/TNUg1JxQ#MUoDG9AqW7AV-JoTDpqPwZDfKcvp-34xacTCyXKy2Z8"
+        >
+          <img
+            src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.impawards.com%2F2025%2Fposters%2Fjurassic_world_rebirth_ver6.jpg&f=1&nofb=1&ipt=72f2a3274d1d9183f2ef28d223ca09c6e2346dc7a26e2d1bbfd9aa2358d69e18"
+            alt="Jurassic Park Rebirth"
+          />
+          <div class="movie-title">Jurassic Park Rebirth</div>
+          <div class="rating">⭐⭐⭐⭐☆</div>
         </div>
+
+        <div
+          class="movie-card"
+          data-src="https://mega.nz/embed/HFslzYKB#ESA1jEoAV7uoSKri7KRPp62SCBAGkm-SIrAIkca4gnE"
+        >
+          <img
+            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapercave.com%2Fwp%2Fwp14534908.jpg&f=1&nofb=1&ipt=3c0c8021f2a3be0ae2846999f9627161757f38d892c79bee50b51db42177a741"
+            alt="Minecraft Movie"
+          />
+          <div class="movie-title">A Minecraft Movie</div>
+          <div class="rating">⭐⭐⭐☆☆</div>
+        </div>
+
+        <div
+          class="movie-card"
+          data-src="https://mega.nz/embed/HBsAwRTA#KUm8WifABPMvVx9zn6OTE8WNFjoStXrZNzsgMYqacUs"
+        >
+          <img
+            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.themoviedb.org%2Ft%2Fp%2Foriginal%2FhCM8E8YKzJTkZ9Ts574aNZOiJLL.jpg&f=1&nofb=1&ipt=7c6545c152fc3ed384755eb4f0f34b414ec62ecdba53295d38c03f3aa8f2a42c"
+            alt="The Curse of Black Pearl"
+          />
+          <div class="movie-title">The Curse of Black Pearl</div>
+          <div class="rating">⭐⭐⭐⭐⭐</div>
+        </div>
+      </div>
     </div>
 
-    <!-- Row 2 -->
+    <!-- Row 2: New Releases -->
     <div class="row">
-        <h3>New Releases</h3>
-        <div class="movie-row">
-            <div class="movie-card" data-src="https://mega.nz/embed/HFslzYKB#ESA1jEoAV7uoSKri7KRPp62SCBAGkm-SIrAIkca4gnE">
-                <img src="https://m.media-amazon.com/images/I/91rK2g8oWJL._AC_SL1500_.jpg" alt="Another Movie">
-                <div class="movie-title">Another Movie</div>
-                <div class="rating">⭐⭐⭐⭐⭐</div>
-            </div>
+      <h3>New Releases</h3>
+      <div class="movie-row">
+        <div
+          class="movie-card"
+          data-src="https://mega.nz/embed/EXAMPLE1#somehashhere"
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/7/7f/Inception_ver3.jpg"
+            alt="Inception"
+          />
+          <div class="movie-title">Inception</div>
+          <div class="rating">⭐⭐⭐⭐⭐</div>
         </div>
+        <div
+          class="movie-card"
+          data-src="https://mega.nz/embed/EXAMPLE2#somehashhere"
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/2/2a/Guardians_of_the_Galaxy_vol_2_poster.jpg"
+            alt="Guardians of the Galaxy"
+          />
+          <div class="movie-title">Guardians of the Galaxy</div>
+          <div class="rating">⭐⭐⭐⭐☆</div>
+        </div>
+      </div>
     </div>
-</div>
 
-<!-- Modal -->
-<div class="modal" id="modal">
+    <!-- Row 3: Adventure & Fantasy -->
+    <div class="row">
+      <h3>Adventure & Fantasy</h3>
+      <div class="movie-row">
+        <div
+          class="movie-card"
+          data-src="https://mega.nz/embed/EXAMPLE3#somehashhere"
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/d/d7/Harry_Potter_and_the_Sorcerer%27s_Stone_poster.jpg"
+            alt="Harry Potter and the Sorcerer's Stone"
+          />
+          <div class="movie-title">Harry Potter and the Sorcerer's Stone</div>
+          <div class="rating">⭐⭐⭐⭐⭐</div>
+        </div>
+
+        <div
+          class="movie-card"
+          data-src="https://mega.nz/embed/EXAMPLE4#somehashhere"
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/7/79/Percy_Jackson_&_the_Olympians_-_The_Lightning_Thief.jpg"
+            alt="Percy Jackson & the Olympians: The Lightning Thief"
+          />
+          <div class="movie-title">Percy Jackson & the Olympians</div>
+          <div class="rating">⭐⭐⭐⭐☆</div>
+        </div>
+
+        <div
+          class="movie-card"
+          data-src="https://mega.nz/embed/EXAMPLE5#somehashhere"
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/c/cf/The_Maze_Runner_film_poster.jpg"
+            alt="The Maze Runner"
+          />
+          <div class="movie-title">The Maze Runner</div>
+          <div class="rating">⭐⭐⭐⭐☆</div>
+        </div>
+
+        <div
+          class="movie-card"
+          data-src="https://mega.nz/embed/EXAMPLE6#somehashhere"
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/c/c6/Doctor_Strange_in_the_Multiverse_of_Madness_poster.jpg"
+            alt="Doctor Strange"
+          />
+          <div class="movie-title">Doctor Strange</div>
+          <div class="rating">⭐⭐⭐⭐☆</div>
+        </div>
+
+        <div
+          class="movie-card"
+          data-src="https://mega.nz/embed/EXAMPLE7#somehashhere"
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/1/14/The_Chronicles_of_Narnia_The_Lion_the_Witch_and_the_Wardrobe_poster.jpg"
+            alt="The Chronicles of Narnia: The Lion, the Witch and the Wardrobe"
+          />
+          <div class="movie-title">
+            The Chronicles of Narnia: The Lion, the Witch and the Wardrobe
+          </div>
+          <div class="rating">⭐⭐⭐⭐⭐</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
     <span class="close-btn" id="closeBtn">&times;</span>
     <iframe id="moviePlayer" allowfullscreen></iframe>
-</div>
+  </div>
 
-<script>
-    const cards = document.querySelectorAll('.movie-card');
-    const modal = document.getElementById('modal');
-    const moviePlayer = document.getElementById('moviePlayer');
-    const closeBtn = document.getElementById('closeBtn');
-    const search = document.getElementById('search');
+  <script>
+    const cards = document.querySelectorAll(".movie-card");
+    const modal = document.getElementById("modal");
+    const moviePlayer = document.getElementById("moviePlayer");
+    const closeBtn = document.getElementById("closeBtn");
+    const search = document.getElementById("search");
 
-    cards.forEach(card => {
-        card.addEventListener('click', () => {
-            moviePlayer.src = card.getAttribute('data-src');
-            modal.style.display = 'flex';
-        });
+    cards.forEach((card) => {
+      card.addEventListener("click", () => {
+        moviePlayer.src = card.getAttribute("data-src");
+        modal.style.display = "flex";
+      });
     });
 
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-        moviePlayer.src = '';
+    closeBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+      moviePlayer.src = "";
     });
 
-    search.addEventListener('input', () => {
-        const term = search.value.toLowerCase();
-        cards.forEach(card => {
-            const title = card.querySelector('.movie-title').innerText.toLowerCase();
-            card.style.display = title.includes(term) ? 'block' : 'none';
-        });
+    search.addEventListener("input", () => {
+      const term = search.value.toLowerCase();
+      cards.forEach((card) => {
+        const title = card
+          .querySelector(".movie-title")
+          .innerText.toLowerCase();
+        card.style.display = title.includes(term) ? "block" : "none";
+      });
     });
-</script>
-
+  </script>
 </body>
 </html>
