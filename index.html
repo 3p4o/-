@@ -1,1 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop playsinline>
+        <source src="vid.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        // Attempt to play with sound after user interaction
+        const video = document.querySelector('video');
+        
+        // Function to enable sound
+        function enableSound() {
+            video.muted = false;
+            video.play().catch(e => console.log('Autoplay failed:', e));
+        }
+
+        // Try to enable sound on first user interaction
+        document.addEventListener('click', enableSound, { once: true });
+        document.addEventListener('touchstart', enableSound, { once: true });
+        document.addEventListener('keydown', enableSound, { once: true });
+
+        // Fallback: try to play with sound after a short delay
+        setTimeout(() => {
+            if (video.muted) {
+                video.muted = false;
+                video.play().catch(e => {
+                    console.log('Autoplay with sound failed, keeping muted');
+                    video.muted = true;
+                });
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
