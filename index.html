@@ -59,9 +59,70 @@
             z-index: -1;
         }
 
+        #overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 100;
+            color: white;
+            font-family: Arial, sans-serif;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+        }
+
+        #overlay.visible {
+            opacity: 1;
+        }
+
+        #profilePic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            }
+            to {
+                box-shadow: 0 0 40px rgba(255, 255, 255, 1);
+            }
+        }
+
+        #username {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        #discord {
+            font-size: 1.2rem;
+            color: #7289da;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
         @media (max-width: 768px) {
             #enterText {
                 font-size: 1.5rem;
+            }
+            
+            #profilePic {
+                width: 120px;
+                height: 120px;
+            }
+            
+            #username {
+                font-size: 2rem;
+            }
+            
+            #discord {
+                font-size: 1rem;
             }
         }
     </style>
@@ -69,6 +130,12 @@
 <body>
     <div id="enterScreen">
         <div id="enterText">Click to Enter</div>
+    </div>
+
+    <div id="overlay">
+        <img id="profilePic" src="pfp.jpg" alt="Profile Picture">
+        <div id="username">cjbj</div>
+        <div id="discord">discord: cjbj</div>
     </div>
 
     <video loop playsinline>
@@ -97,6 +164,11 @@
             setTimeout(() => {
                 enterScreen.style.display = 'none';
             }, 500);
+
+            // Show the overlay after a brief delay
+            setTimeout(() => {
+                document.getElementById('overlay').classList.add('visible');
+            }, 1000);
         }
 
         // Add click listener to enter screen
