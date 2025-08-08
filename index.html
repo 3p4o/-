@@ -76,21 +76,82 @@
             opacity: 1;
         }
 
+        #profileContainer {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 0 30px rgba(255, 255, 255, 0.2),
+                0 0 60px rgba(255, 255, 255, 0.1),
+                inset 0 0 20px rgba(255, 255, 255, 0.05);
+            animation: containerGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes containerGlow {
+            from {
+                box-shadow: 
+                    0 0 30px rgba(255, 255, 255, 0.2),
+                    0 0 60px rgba(255, 255, 255, 0.1),
+                    inset 0 0 20px rgba(255, 255, 255, 0.05);
+            }
+            to {
+                box-shadow: 
+                    0 0 50px rgba(255, 255, 255, 0.4),
+                    0 0 100px rgba(255, 255, 255, 0.2),
+                    inset 0 0 30px rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        #profilePicContainer {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
         #profilePic {
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            margin-bottom: 20px;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
-            animation: glow 2s ease-in-out infinite alternate;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+            animation: profileGlow 2s ease-in-out infinite alternate;
         }
 
-        @keyframes glow {
+        @keyframes profileGlow {
             from {
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+                filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
             }
             to {
-                box-shadow: 0 0 40px rgba(255, 255, 255, 1);
+                filter: drop-shadow(0 0 40px rgba(255, 255, 255, 1));
+            }
+        }
+
+        /* Additional glow layer behind the profile pic */
+        #profilePicContainer::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 70%);
+            z-index: 1;
+            animation: backgroundGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes backgroundGlow {
+            from {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
             }
         }
 
@@ -98,13 +159,17 @@
             font-size: 3rem;
             font-weight: bold;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            text-shadow: 
+                2px 2px 4px rgba(0, 0, 0, 0.8),
+                0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         #discord {
             font-size: 1.2rem;
             color: #7289da;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            text-shadow: 
+                1px 1px 2px rgba(0, 0, 0, 0.8),
+                0 0 5px rgba(114, 137, 218, 0.8);
         }
 
         @media (max-width: 768px) {
@@ -112,7 +177,13 @@
                 font-size: 1.5rem;
             }
             
-            #profilePic {
+            #profileContainer {
+                padding: 30px 35px;
+                border-radius: 20px;
+            }
+            
+            #profilePic,
+            #profilePicContainer::before {
                 width: 120px;
                 height: 120px;
             }
@@ -133,9 +204,13 @@
     </div>
 
     <div id="overlay">
-        <img id="profilePic" src="100.png" alt="Profile Picture">
-        <div id="username">cjbj</div>
-        <div id="discord">discord: cjbj</div>
+        <div id="profileContainer">
+            <div id="profilePicContainer">
+                <img id="profilePic" src="100.png" alt="Profile Picture">
+            </div>
+            <div id="username">cjbj</div>
+            <div id="discord">discord: cjbj</div>
+        </div>
     </div>
 
     <video loop playsinline>
