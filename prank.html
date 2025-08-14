@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>no escape</title>
+<style>
+  html, body {
+    margin:0;
+    padding:0;
+    height:100%;
+    overflow:hidden;
+    background:black;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:sans-serif;
+    user-select:none;
+  }
+</style>
+<script>
+  // prevent closing / back / refresh
+  window.onbeforeunload = function(){ return "you can't leave!"; };
+  history.pushState(null, null, location.href);
+  window.onpopstate = function(){ history.pushState(null, null, location.href); };
+
+  // block keys (alt+f4, ctrl+w, ctrl+r, etc)
+  document.addEventListener("keydown", e => {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  // focus trap
+  window.onblur = function(){ window.focus(); };
+
+  // keep resizing to mess with manual resizing
+  function keepFullScreen(){
+    window.moveTo(0,0);
+    window.resizeTo(screen.width, screen.height);
+    setTimeout(keepFullScreen, 500);
+  }
+
+  window.onload=function(){
+    keepFullScreen();
+    let h=document.createElement("h1");
+    h.innerText="YOU CANNOT CLOSE THIS!";
+    h.style.fontSize="3rem";
+    document.body.appendChild(h);
+  }
+</script>
+</head>
+<body></body>
+</html>
