@@ -2,69 +2,125 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>click me</title>
+<title>Classroom Chat (Firebase)</title>
 <style>
-  body {
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    margin:0;
-    font-family:sans-serif;
-    background:#f0f0f0;
-    color:#333;
-  }
-  button{
-    padding:20px 40px;
-    font-size:1.5rem;
-    cursor:pointer;
-  }
+  body{font-family:sans-serif; max-width:800px; margin:20px auto; background:#f0f0f0; color:#333;}
+  header{display:flex; justify-content:space-between; align-items:center; background:#4CAF50; color:white; padding:10px 20px; margin-bottom:20px; border-radius:5px;}
+  #chat{border:1px solid #333; background:white; height:300px; overflow-y:scroll; padding:10px; border-radius:5px; margin-bottom:10px;}
+  input, select, button{padding:10px; margin-right:10px; font-size:16px;}
+  #footer{margin-top:20px; font-style:italic; color:#555;}
 </style>
-<script>
-  function trapMode(){
-    // go fullscreen
-    if(document.documentElement.requestFullscreen){
-      document.documentElement.requestFullscreen();
-    } else if(document.documentElement.webkitRequestFullscreen){
-      document.documentElement.webkitRequestFullscreen();
-    }
-
-    // prevent closing / back / refresh
-    window.onbeforeunload = ()=> "You cannot leave!";
-    history.pushState(null, null, location.href);
-    window.onpopstate = ()=> history.pushState(null, null, location.href);
-
-    // block keys
-    document.addEventListener("keydown", e=>{ e.preventDefault(); e.stopPropagation(); });
-
-    // block right-click
-    document.addEventListener("contextmenu", e=>{ e.preventDefault(); });
-
-    // force focus
-    window.onblur = ()=> window.focus();
-
-    // keep resizing
-    function keepFullScreen(){
-      window.moveTo(0,0);
-      window.resizeTo(screen.width, screen.height);
-      setTimeout(keepFullScreen,500);
-    }
-    keepFullScreen();
-
-    // optional: subtle moving text so it looks “alive”
-    let h=document.createElement("h1");
-    h.innerText="You cannot leave!";
-    h.style.position="absolute";
-    h.style.top="50%";
-    h.style.left="50%";
-    h.style.transform="translate(-50%, -50%)";
-    h.style.fontSize="3rem";
-    h.style.color="#333";
-    document.body.appendChild(h);
-  }
-</script>
 </head>
 <body>
-  <button onclick="trapMode()">Click Me!</button>
+<header>
+  <div id="userInfo"></div>
+  <div>
+    <label for="roomSelect">Room:</label>
+    <select id="roomSelect">
+      <option value="Lobby">Lobby</option>
+      <option value="Math">Math Class</option>
+      <option value="Fun">Fun Room</option>
+    </select>
+  </div>
+</header>
+
+<div id="chat"></div>
+
+<input type="text" id="msgInput" placeholder="Type your message...">
+<button id="sendBtn" disabled>Send</button>
+
+<div id="footer">Your UID and nickname are stored for this session.</div>
+
+<!-- Firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyDxUQ1KMIUYhJLoReJw0YPylmFtZdKpw0E",
+  authDomain: "talk-18a7e.firebaseapp.com",
+  databaseURL: "https://talk-18a7e-default-rtdb.firebaseio.com/",
+  projectId: "talk-18a7e",
+  storageBucket: "talk-18a7e.appspot.com",
+  messagingSenderId: "120833870237",
+  appId: "1:120833870237:web:e5b4a715f70a18f6d94774",
+  measurementId: "G-E44XVWWFKK"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const auth = firebase.auth();
+
+// anonymous auth
+auth.signInAnonymously().catch(err=>console.error(err));
+auth.onAuthStateChanged(user=>{
+  if(user){
+    console.log("Signed in as", user.uid);
+    document.getElementById("sendBtn").disabled = false;
+  }
+});
+
+// UID & nickname
+let uid = localStorage.getItem("uid") || (Math.floor(Math.random()*900000 + 100000) + "");
+localStorage.setItem("uid", uid);
+
+let nickname = localStorage.getItem("nickname") || ("Student"+uid);
+localStorage.setItem("nickname", nickname);
+
+document.getElementById("userInfo").innerText = `UID: ${uid} | Nickname: ${nickname}`;
+
+// Anti-spam
+let lastMsgTime = 0;
+
+// Send message
+function sendMessage(){
+  if(!auth.currentUser) return;
+  const now = Date.now();
+  if(now - lastMsgTime < 2000){ alert("Slow down, no spam!"); return; }
+  lastMsgTime = now;
+
+  const msgInput = document.getElementById("msgInput");
+  const text = msgInput.value.trim();
+  if(!text) return;
+
+  const room = document.getElementById("roomSelect").value;
+  db.ref("rooms/"+room).push({
+    uid: uid,
+    nickname: nickname,
+    message: text,
+    timestamp: Date.now()
+  });
+
+  msgInput.value="";
+}
+
+document.getElementById("sendBtn").addEventListener("click", sendMessage);
+document.getElementById("msgInput").addEventListener("keypress", e=>{
+  if(e.key==="Enter") sendMessage();
+});
+
+// Listen to room
+function listenRoom(room){
+  const chat = document.getElementById("chat");
+  chat.innerHTML="";
+  db.ref("rooms/"+room).off();
+
+  db.ref("rooms/"+room).on("child_added", snapshot=>{
+    const msg = snapshot.val();
+    const p = document.createElement("p");
+    p.innerText = `[${room}] ${msg.nickname} (${msg.uid}): ${msg.message}`;
+    chat.appendChild(p);
+    chat.scrollTop = chat.scrollHeight;
+  });
+}
+
+document.getElementById("roomSelect").addEventListener("change", e=>listenRoom(e.target.value));
+
+// start in Lobby
+listenRoom("Lobby");
+</script>
 </body>
 </html>
